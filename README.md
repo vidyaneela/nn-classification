@@ -58,7 +58,7 @@ Developed By: VIDYA NEELA M
 Reg No:212221230120
 ```
 
-###import libraries
+### import libraries
 ```
 import pandas as pd
 from sklearn.model_selection import train_test_split
