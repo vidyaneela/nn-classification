@@ -173,10 +173,14 @@ scaler_age = MinMaxScaler()
 scaler_age.fit(X_train[:,2].reshape(-1,1))
 X_train_scaled = np.copy(X_train)
 X_test_scaled = np.copy(X_test)
+```
 # To scale the Age column
+```
 X_train_scaled[:,2] = scaler_age.transform(X_train[:,2].reshape(-1,1)).reshape(-1)
 X_test_scaled[:,2] = scaler_age.transform(X_test[:,2].reshape(-1,1)).reshape(-1)
+```
 # Creating the model
+```
 ai_brain=Sequential([
     Dense(10,input_shape=(8,)),
     Dense(12,activation='relu'),
@@ -193,20 +197,28 @@ ai_brain.fit(x=X_train_scaled,y=y_train,
 metrics = pd.DataFrame(ai_brain.history.history)
 metrics.head()
 metrics[['loss','val_loss']].plot()
+```
 # Sequential predict_classes function is deprecated
 # predictions = ai_brain.predict_classes(X_test)
+```
 x_test_predictions = np.argmax(ai_brain.predict(X_test_scaled), axis=1)
 x_test_predictions.shape
 y_test_truevalue = np.argmax(y_test,axis=1)
 y_test_truevalue.shape
 print(confusion_matrix(y_test_truevalue,x_test_predictions))
 print(classification_report(y_test_truevalue,x_test_predictions))
+```
 # Saving the Model
+```
 ai_brain.save('customer_classification_model.h5')
+```
 # Saving the data
+```
 with open('customer_data.pickle', 'wb') as fh:
    pickle.dump([X_train_scaled,y_train,X_test_scaled,y_test,customer_l,customer_df_cleaned,scaler_age,enc,one_hot_enc,le], fh)
+```
 # Loading the Model
+```
 ai_brain = load_model('customer_classification_model.h5')
    [X_train_scaled,y_train,X_test_scaled,y_test,customers_1,customer_df_cleaned,scaler_age,enc,one_hot_enc,le]=pickle.load(fh)
 x_single_prediction = np.argmax(ai_brain.predict(X_test_scaled[1:2,:]), axis=1)
